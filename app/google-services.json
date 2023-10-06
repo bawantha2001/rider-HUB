@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "921843348090",
+    "project_id": "rider-hub",
+    "storage_bucket": "rider-hub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921843348090:android:a8abcca9bf5b86485541c3",
+        "android_client_info": {
+          "package_name": "com.travelerguide.riderhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrncT2g92ei-lztB0upE4cgPSnb9ZKD5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

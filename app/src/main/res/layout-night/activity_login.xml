@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentBottom="true"
+      android:layout_marginStart="0dp"
+      android:layout_marginTop="0dp"
+      android:layout_marginEnd="0dp"
+      android:layout_marginBottom="0dp"
+      android:background="#B7B7B7"
+      android:orientation="vertical"
+      android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="30dp"
+        app:srcCompat="@drawable/baseline_lock_24"
+        tools:srcCompat="@drawable/baseline_lock_24" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="Welcome back you've been missed!"
+        android:textColor="@color/my_primary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/txt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/input_field"
+        android:backgroundTint="#DBDBDB"
+        android:backgroundTintMode="src_in"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/txt_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/input_field"
+        android:backgroundTint="#DBDBDB"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/btn_forgotpw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="right"
+        android:text="Forgot password?"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginBottom="25dp"
+        android:backgroundTint="#000000"
+        android:text="Sign In"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="Or continue with"
+        android:textColorLink="#8D8D8D"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/input_field"
+        android:backgroundTint="@color/my_primary">
+
+      <ImageButton
+          android:id="@+id/imgbtn_google"
+          android:layout_width="65dp"
+          android:layout_height="65dp"
+          android:layout_gravity="center"
+          android:scaleType="centerCrop"
+          android:src="@drawable/google" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/textView4"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:text="Not a member? "
+          android:textColorLink="#8D8D8D"
+          android:textSize="16sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:id="@+id/btn_regnow"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5dp"
+          android:gravity="center"
+          android:text="Register now"
+          android:textColor="#1D36C1"
+          android:textColorLink="#8D8D8D"
+          android:textSize="16sp"
+          android:textStyle="bold" />
+    </LinearLayout>
+
+  </LinearLayout>
+</RelativeLayout>
