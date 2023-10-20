@@ -40,9 +40,17 @@ public class Login extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = auth.getCurrentUser();
         if(currentUser != null){
-            Intent intent=new Intent(Login.this,Home.class);
-            startActivity(intent);
-            finish();
+            if(!currentUser.getEmail().equals("admin@gmail.com")){
+                Intent intent=new Intent(Login.this,Home.class);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                Intent intent=new Intent(Login.this,adminsHome.class);
+                startActivity(intent);
+                finish();
+            }
+
         }
     }
 
@@ -109,11 +117,21 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            loadingbar.setVisibility(View.INVISIBLE);
-                            Log.d("signincheck", "signInWithEmail:success");
-                            Intent intent=new Intent(Login.this,Home.class);
-                            startActivity(intent);
-                            finish();
+                            if(!email.equals("admin@gmail.com")){
+                                loadingbar.setVisibility(View.INVISIBLE);
+                                Log.d("signincheck", "signInWithEmail:success");
+                                Intent intent=new Intent(Login.this,Home.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else{
+                                loadingbar.setVisibility(View.INVISIBLE);
+                                Log.d("signincheck", "signInWithEmail:success");
+                                Intent intent=new Intent(Login.this, adminsHome.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
                         } else {
                             loadingbar.setVisibility(View.INVISIBLE);
                             Log.w("signincheck", "signInWithEmail:failure", task.getException());

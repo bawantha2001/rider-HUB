@@ -43,9 +43,16 @@ public class signUp extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = auth.getCurrentUser();
         if(currentUser != null){
-            Intent intent=new Intent(signUp.this,Home.class);
-            startActivity(intent);
-            finish();
+            if(!currentUser.getEmail().equals("admin@gmail.com")){
+                Intent intent=new Intent(signUp.this,Home.class);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                Intent intent=new Intent(signUp.this,adminsHome.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 
@@ -132,7 +139,7 @@ public class signUp extends AppCompatActivity {
                                 }
                             });
                             loadingbar.setVisibility(View.INVISIBLE);
-                            Intent intent=new Intent(signUp.this,Home.class);
+                            Intent intent=new Intent(signUp.this,Login.class);
                             startActivity(intent);
                             finish();
                         } else {
