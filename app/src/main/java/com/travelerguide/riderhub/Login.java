@@ -1,4 +1,4 @@
-package com.travelerguide.riderhub;
+package com.travelerguide.riderhub;...
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +26,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity {..
 
 
     EditText email,password;

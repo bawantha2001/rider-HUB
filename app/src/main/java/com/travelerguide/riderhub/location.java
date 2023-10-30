@@ -49,7 +49,6 @@ import java.util.Map;
 
 public class location extends AppCompatActivity {
 
-
     EditText start,end,vehicleNo,stime,date;
     RadioGroup vehicle;
     RadioButton selectedVehicle;
