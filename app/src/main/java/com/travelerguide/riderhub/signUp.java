@@ -51,7 +51,7 @@ public class signUp extends AppCompatActivity {
             else {
                 Intent intent=new Intent(signUp.this,adminsHome.class);
                 startActivity(intent);
-                finish();
+                finish();//
             }
         }
     }
