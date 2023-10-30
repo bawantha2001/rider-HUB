@@ -326,26 +326,18 @@ public class Home extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
 
         // Set the message show for the Alert time
-
         builder.setMessage("Do you want to logout ?");
-
         // Set Alert Title
         builder.setTitle("Log Out !");
-
         // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
         builder.setCancelable(false);
-
         // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 FirebaseFirestore.getInstance().terminate();
-
                 FirebaseAuth.getInstance().signOut();
-
                 Intent intent=new Intent(Home.this,Login.class);
-
                 startActivity(intent);
                 finish();
             }

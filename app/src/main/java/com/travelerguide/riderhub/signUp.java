@@ -69,7 +69,6 @@ public class signUp extends AppCompatActivity {
         loadingbar=findViewById(R.id.loadingbar);
         name=findViewById(R.id.txt_name);
         phoneNo=findViewById(R.id.txt_phoneNo);
-
         btnregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +91,6 @@ public class signUp extends AppCompatActivity {
                     password.setError("Enter a valid password!(More than 6 characters)!");
                     return;
                 }
-
                 if(!spassword.equals(sconfirmPassword)){
                     confirmPassword.setText("");
                     password.setText("");
@@ -109,7 +107,6 @@ public class signUp extends AppCompatActivity {
                     phoneNo.setError("Enter a valid email!");
                     return;
                 }
-
                 registeruser(semail,spassword,sname,sphoneNo,btnregister);
             }
         });

@@ -64,4 +64,3 @@ public class activity_welcome extends AppCompatActivity {
         }
     }
 }
-

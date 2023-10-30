@@ -111,13 +111,10 @@ public class location extends AppCompatActivity {
 
                 // Set the message show for the Alert time
                 builder.setMessage("Do you wish to save this ride ?\n\nStart : "+startlocation+"\nEnd : "+endlocation+"\nTotal Distance : "+realdistance+" Km");
-
                 // Set Alert Title
                 builder.setTitle("Save");
-
                 // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
                 builder.setCancelable(false);
-
                 // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
                 builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override

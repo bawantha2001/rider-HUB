@@ -46,7 +46,6 @@ public class orders extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
-
         name=findViewById(R.id.txt_name);
         email=findViewById(R.id.txt_email);
         back=findViewById(R.id.btn_back);
@@ -57,7 +56,6 @@ public class orders extends AppCompatActivity {
         useremail=intent.getStringExtra("useremail");
         phoneno=intent.getStringExtra("userphone");
         userId=intent.getStringExtra("userId");
-
         name.setText(username);
         email.setText(useremail);
 
@@ -78,13 +76,10 @@ public class orders extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(orders.this);
                 // Set the message show for the Alert time
                 builder.setMessage("Did you got the payment ?");
-
                 // Set Alert Title
                 builder.setTitle("Payment verify");
-
                 // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
                 builder.setCancelable(false);
-
                 // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
                 builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
