@@ -57,9 +57,9 @@ public class orders extends AppCompatActivity {
         userId=intent.getStringExtra("userId");
         name.setText(username);
         email.setText(useremail);
-/
+
         loadData();
-/
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,8 +71,8 @@ public class orders extends AppCompatActivity {
 
         ridelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {/
-                AlertDialog.Builder builder = new AlertDialog.Builder(orders.this);/
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(orders.this);
                 // Set the message show for the Alert time
                 builder.setMessage("Did you got the payment ?");
                 // Set Alert Title
@@ -86,7 +86,7 @@ public class orders extends AppCompatActivity {
                         delete(i);
                     }
                 });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {/
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -133,7 +133,7 @@ public class orders extends AppCompatActivity {
                         }
                         setAdapter(names,dates,liststart,listend,listtime,price,image);
                     }catch (Exception e){
-/
+
                     }
                 }
             });
