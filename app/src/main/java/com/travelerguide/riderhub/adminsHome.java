@@ -62,7 +62,6 @@ public class adminsHome extends AppCompatActivity {
                     username = value.getString("Name");
                     useremail = value.getString("email");
                     phoneNo = value.getString("phoneNo");
-
                     name.setText(username);
                     email.setText(useremail);
                 }
@@ -105,13 +104,10 @@ public class adminsHome extends AppCompatActivity {
 
         // Set the message show for the Alert time
         builder.setMessage("Do you want to logout ?");
-
         // Set Alert Title
         builder.setTitle("Log Out !");
-
         // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
         builder.setCancelable(false);
-
         // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
@@ -138,7 +134,6 @@ public class adminsHome extends AppCompatActivity {
             try {
                 DocumentReference documentReference = fstore.collection("riderEarnings").document(usersIds.get(x));
                 documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         String temp= value.getString("ammount")==null?"0":value.getString("ammount");

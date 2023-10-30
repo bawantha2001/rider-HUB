@@ -16,7 +16,6 @@ import android.widget.Toast;
 public class activity_welcome extends AppCompatActivity {
 
     Button login;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
