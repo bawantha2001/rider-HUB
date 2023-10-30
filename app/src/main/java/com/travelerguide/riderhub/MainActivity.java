@@ -1,4 +1,4 @@
-package com.travelerguide.riderhub;
+package com.travelerguide.riderhub;/
 
 import androidx.appcompat.app.AppCompatActivity;
 
