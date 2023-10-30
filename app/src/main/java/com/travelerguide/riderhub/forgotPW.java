@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class forgotPW extends AppCompatActivity {
 
+
     EditText email;
     Button reset;
     LinearLayout loadingbar;
@@ -78,7 +79,8 @@ public class forgotPW extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent=new Intent(forgotPW.this,Login.class);
+        super.onBackPressed();
+        Intent intent = new Intent(forgotPW.this, Login.class);
         startActivity(intent);
         finish();
     }

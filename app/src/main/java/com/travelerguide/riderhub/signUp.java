@@ -30,6 +30,7 @@ import java.util.Map;
 
 public class signUp extends AppCompatActivity {
 
+
     EditText email,password,confirmPassword,name,phoneNo;
     Button btnregister;
     FirebaseAuth auth=FirebaseAuth.getInstance();

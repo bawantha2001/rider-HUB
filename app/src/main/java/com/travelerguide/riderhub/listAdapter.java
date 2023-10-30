@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class listAdapter extends ArrayAdapter<String> {
+
     Context context;
     ArrayList<String> listnames=new ArrayList<String>(),listdates=new ArrayList<String>(),liststart=new ArrayList<String>(),listend=new ArrayList<String>(),listtime=new ArrayList<String>(),price=new ArrayList<String>();
     ArrayList<Integer> image=new ArrayList<Integer>();
