@@ -110,7 +110,7 @@ public class adminsHome extends AppCompatActivity {
         // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {/
+            public void onClick(DialogInterface dialog, int which) {
                 FirebaseFirestore.getInstance().terminate();
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(adminsHome.this, Login.class);
