@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 
-public class reserves extends AppCompatActivity {
+public class  reserves extends AppCompatActivity {
 
     String username,useremail,phoneno,userId,rideruId,rideId;
     TextView name,email;
