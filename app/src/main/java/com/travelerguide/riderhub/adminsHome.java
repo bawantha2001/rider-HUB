@@ -73,13 +73,13 @@ public class adminsHome extends AppCompatActivity {
         getridersIds();
 
 
-        logout.setOnClickListener(new View.OnClickListener() {/
-            @Override/
-            public void onClick(View view) {/
-                logout();/
-            }/
-        });/
-    }/
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+    }
 
     private void getusersIds(){
         try{
@@ -110,7 +110,7 @@ public class adminsHome extends AppCompatActivity {
         // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which) {/
                 FirebaseFirestore.getInstance().terminate();
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(adminsHome.this, Login.class);
@@ -118,11 +118,11 @@ public class adminsHome extends AppCompatActivity {
                 finish();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {/
-            @Override/
-            public void onClick(DialogInterface dialog, int which) {/
-                dialog.cancel();/
-            }/
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -162,7 +162,7 @@ public class adminsHome extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
-    }/
+    }
 
     private void loadrideData(){
 
