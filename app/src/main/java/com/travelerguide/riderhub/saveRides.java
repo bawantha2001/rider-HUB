@@ -46,10 +46,7 @@ public class saveRides extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_rides);
 
-        name=findViewById(R.id.txt_name);
-        email=findViewById(R.id.txt_email);
-        back=findViewById(R.id.btn_back);
-        ridelist=findViewById(R.id.saverideslist);
+
 
         Intent intent=getIntent();
         username=intent.getStringExtra("username");
