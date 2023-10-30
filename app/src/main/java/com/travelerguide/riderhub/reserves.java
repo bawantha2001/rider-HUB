@@ -71,7 +71,7 @@ public class  reserves extends AppCompatActivity {
         try {
             DocumentReference documentReference = fstore.collection("userReservation").document(userId);
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-                @Override/
+                @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                     rideruId = value.getString("userid");
                     rideId = value.getString("rideId");
