@@ -75,7 +75,7 @@ public class orders extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(orders.this);
                 // Set the message show for the Alert time
                 builder.setMessage("Did you got the payment ?");
-                // Set Alert Title/
+                // Set Alert Title
                 builder.setTitle("Payment verify");
                 // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
                 builder.setCancelable(false);
@@ -145,7 +145,7 @@ public class orders extends AppCompatActivity {
         listAdapter = new listAdapter(orders.this, names, dates, liststart, listend, listtime, price, image);
         ridelist.setAdapter(listAdapter);
         ridelist.setVisibility(View.VISIBLE);
-    }/
+    }
 
     private void delete(int index) {
         DocumentReference documentReference = fstore.collection("userReservation").document(pasengerID.get(index));
