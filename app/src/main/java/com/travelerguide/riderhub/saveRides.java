@@ -24,9 +24,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class saveRides extends AppCompatActivity {
@@ -38,7 +41,7 @@ public class saveRides extends AppCompatActivity {
     ListView ridelist;
     listAdapter listAdapter;
     ArrayList<String> price,dates;
-    String count;
+    private List<String> documentIds =new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,8 @@ public class saveRides extends AppCompatActivity {
         name.setText(username);
         email.setText(useremail);
 
-        fetchall();
+        retriveRiders();
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +71,38 @@ public class saveRides extends AppCompatActivity {
                 Intent intent=new Intent(saveRides.this,Home.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        ridelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(saveRides.this);
+                // Set the message show for the Alert time
+                builder.setMessage("Do you want to delete this ride ?");
+
+                // Set Alert Title
+                builder.setTitle("Delete Ride");
+
+                // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
+                builder.setCancelable(false);
+
+                // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
+                builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        delete(i);
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
@@ -85,16 +121,10 @@ public class saveRides extends AppCompatActivity {
         price=new ArrayList<String>();
         ArrayList<Integer> image=new ArrayList<Integer>();
 
-        try {
-            DocumentReference documentReference = fstore.collection("usersSaveRides").document(userId);
-            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    count = value.getString("count");
-                    for (int y = 1; y <= Integer.parseInt(count); y++) {
+                    for (int y = 0; y < documentIds.size(); y++) {
                         try {
                             int finalY = y;
-                            fstore.collection("usersSaveRides/"+userId+"/details").document(String.valueOf(y)).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            fstore.collection("usersSaveRides/"+userId+"/details").document(documentIds.get(y)).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                     try {
@@ -104,12 +134,12 @@ public class saveRides extends AppCompatActivity {
                                         listend.add(value.getString("endlocation"));
                                         listtime.add(value.getString("time"));
                                         vehicletype.add(value.getString("vehicletype"));
-                                        price.add("Trip No:- "+value.getString("rideid"));
-                                        if(vehicletype.get(finalY-1).equals("Motor Bike")){
+                                        price.add("Trip ID:- "+(finalY+1));
+                                        if(vehicletype.get(finalY).equals("Motor Bike")){
                                             image.add(R.drawable.scooter);
-                                        } else if (vehicletype.get(finalY-1).equals("Car")) {
+                                        } else if (vehicletype.get(finalY).equals("Car")) {
                                             image.add(R.drawable.car);
-                                        } else if (vehicletype.get(finalY-1).equals("Three Wheeler")) {
+                                        } else if (vehicletype.get(finalY).equals("Three Wheeler")) {
                                             image.add(R.drawable.threewheel);
                                         }
                                         setAdapter(names,dates,liststart,listend,listtime,price,image);
@@ -123,11 +153,6 @@ public class saveRides extends AppCompatActivity {
                             return;
                         }
                     }
-                }
-            });
-        }catch (Exception e){
-
-        }
 
     }
 
@@ -136,4 +161,28 @@ public class saveRides extends AppCompatActivity {
         ridelist.setAdapter(listAdapter);
         ridelist.setVisibility(View.VISIBLE);
     }
-}
+
+    private void retriveRiders(){
+        try{
+            fstore.collection("usersSaveRides/"+userId+"/details").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    for(QueryDocumentSnapshot documentSnapshot:value){
+                        String documentID=documentSnapshot.getId();
+                        documentIds.add(documentID);
+                        Toast.makeText(saveRides.this, documentIds.get(0), Toast.LENGTH_SHORT).show();
+                    }
+                    fetchall();
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    }
+
+    private void delete(int index) {
+        DocumentReference documentReference = fstore.collection("usersSaveRides/"+userId+"/details").document(documentIds.get(index));
+        documentReference.delete();
+        }
+    }
