@@ -127,6 +127,23 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
+                android:id="@+id/txt_seatCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/input_field"
+                android:drawableStart="@drawable/baseline_airline_seat_recline_normal_24"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Seat Count"
+                android:inputType="text"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.099"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
                 android:id="@+id/txt_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,12 +151,12 @@
                 android:background="@drawable/input_field"
                 android:drawableStart="@drawable/baseline_date_range_24"
                 android:drawablePadding="10dp"
-                android:ems="10"
+                android:gravity="center_vertical"
                 android:hint="Date"
-                android:inputType="date"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:textSize="18sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/txt_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,9 +165,11 @@
                 android:drawableStart="@drawable/baseline_access_time_24"
                 android:drawablePadding="10dp"
                 android:ems="10"
+                android:gravity="center_vertical"
                 android:hint="Start Time"
                 android:inputType="time"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/txt_start"

@@ -6,6 +6,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
@@ -18,11 +20,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,14 +46,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.io.IOException;
+import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class location extends AppCompatActivity {
 
-    EditText start,end,vehicleNo,stime,date;
+    EditText start,end,vehicleNo,seatcount;
+    TextView date,stime;
     RadioGroup vehicle;
     RadioButton selectedVehicle;
     ImageButton back;
@@ -62,7 +69,6 @@ public class location extends AppCompatActivity {
     FirebaseFirestore fstore=FirebaseFirestore.getInstance();
     String count;
     int realcount;
-
     String username,useremail,phoneno,userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +88,7 @@ public class location extends AppCompatActivity {
         vehicle=findViewById(R.id.vehicle);
         selectedVehicle=findViewById(R.id.rdb_car);
         selectedVehicle.setChecked(true);
+        seatcount=findViewById(R.id.txt_seatCount);
 
         Intent intent=getIntent();
         username=intent.getStringExtra("username");
@@ -94,10 +101,24 @@ public class location extends AppCompatActivity {
 
         readCount();
 
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
+
+        stime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTimeDialog();
+            }
+        });
+
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String vehicletype,vehicleno,sdate,time,startlocation,endlocation;
+                String vehicletype,vehicleno,sdate,time,startlocation,endlocation,seatCount;
                 vehicleno=vehicleNo.getText().toString().trim();
                 sdate=date.getText().toString().trim();
                 time=stime.getText().toString().trim();
@@ -105,6 +126,7 @@ public class location extends AppCompatActivity {
                 vehicletype=selectedVehicle.getText().toString().trim();
                 startlocation=start.getText().toString().trim();
                 endlocation=end.getText().toString().trim();
+                seatCount=seatcount.getText().toString().trim();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(location.this);
 
@@ -131,6 +153,7 @@ public class location extends AppCompatActivity {
                         user.put("startlocation",startlocation);
                         user.put("endlocation",endlocation);
                         user.put("distance",realdistance);
+                        user.put("seatCount",seatCount);
                         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
@@ -193,6 +216,31 @@ public class location extends AppCompatActivity {
                 gmap = googleMap;
             }
         });
+    }
+
+    private void openDialog(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH); // Note: January is 0
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                date.setText(String.valueOf(day)+"/"+String.valueOf(month+1)+"/"+String.valueOf(year));
+            }
+        }, year, month, day);
+        dialog.show();
+    }
+
+    private void openTimeDialog(){
+        TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hours, int minutes) {
+                stime.setText(String.valueOf(hours)+":"+String.valueOf(minutes));
+            }
+        }, 15, 45, true);
+        dialog.show();
     }
 
     private void updateCount(){

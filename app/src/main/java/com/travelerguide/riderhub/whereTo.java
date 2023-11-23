@@ -52,7 +52,7 @@ public class whereTo extends AppCompatActivity {
     String count;
     ListView list;
     listAdapter listAdapter;
-    ArrayList<String> rideId,price,riderUid,dates;
+    ArrayList<String> rideId,price,riderUid,dates,seatCount,priceShow,showName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +126,9 @@ public class whereTo extends AppCompatActivity {
         rideId=new ArrayList<String>();
         riderUid=new ArrayList<String>();
         dates=new ArrayList<String>();
+        seatCount=new ArrayList<String>();
+        priceShow=new ArrayList<String>();
+        showName=new ArrayList<String>();
         ArrayList<Integer> image=new ArrayList<Integer>();
 
         for (int x = 0; x < documentIds.size(); x++) {
@@ -142,7 +145,7 @@ public class whereTo extends AppCompatActivity {
                                 fstore.collection("usersSaveRides/"+documentIds.get(finalX)+"/details").document(String.valueOf(y)).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                                     @Override
                                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                        if(value.getString("startlocation").equals(startcity) && value.getString("endlocation").equals(endcity) && value.getString("vehicletype").equals(vehicletype)&&!documentIds.get(finalX).equals(userId)){
+                                        if(value.getString("startlocation").equals(startcity) && value.getString("endlocation").equals(endcity) && value.getString("vehicletype").equals(vehicletype)&&!documentIds.get(finalX).equals(userId) && !value.getString("seatCount").equals("0")){
                                             rideId.add(value.getString("rideid"));
                                             riderUid.add(value.getString("rideUid"));
                                             names.add(value.getString("Name"));
@@ -150,18 +153,22 @@ public class whereTo extends AppCompatActivity {
                                             liststart.add(value.getString("startlocation"));
                                             listend.add(value.getString("endlocation"));
                                             listtime.add(value.getString("time"));
-
+                                            seatCount.add(value.getString("seatCount"));
+                                            showName.add(value.getString("Name")+"/ "+value.getString("seatCount")+" Seats");
                                             if(vehicletype.equals("Motor Bike")){
-                                                price.add(String.valueOf(500*distance));
+                                                price.add(String.valueOf(500*distance+" Rs"));
+                                                priceShow.add(String.valueOf(500*distance));
                                                 image.add(R.drawable.scooter);
                                             } else if (vehicletype.equals("Car")) {
-                                                price.add(String.valueOf(1500*distance));
+                                                price.add(String.valueOf(1500*distance+" Rs"));
+                                                priceShow.add(String.valueOf(500*distance));
                                                 image.add(R.drawable.car);
                                             } else if (vehicletype.equals("Three Wheeler")) {
-                                                price.add(String.valueOf(900*distance));
+                                                price.add(String.valueOf(900*distance+" Rs"));
+                                                priceShow.add(String.valueOf(500*distance));
                                                 image.add(R.drawable.threewheel);
                                             }
-                                            setAdapter(names,dates,liststart,listend,listtime,price,image);
+                                            setAdapter(showName,dates,liststart,listend,listtime,price,image);
                                         }
                                     }
                                 });
@@ -258,7 +265,7 @@ public class whereTo extends AppCompatActivity {
                 user.put("Name",username);
                 user.put("phoneNo",phoneno);
                 user.put("rideId",rideId.get(index));
-                user.put("price",price.get(index));
+                user.put("price",priceShow.get(index));
                 user.put("date",dates.get(index));
                 user.put("vehicletype",vehicletype);
                 user.put("userid",userId);
@@ -286,14 +293,24 @@ public class whereTo extends AppCompatActivity {
         Map<String,Object> user=new HashMap<>();
         user.put("userid",riderUid.get(index));
         user.put("rideId",rideId.get(index));
-        user.put("price",price.get(index));
+        user.put("price",priceShow.get(index));
         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(whereTo.this, "Reserved", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(whereTo.this,Home.class);
-                startActivity(intent);
-                finish();
+
+                DocumentReference documentReference=fstore.collection("usersSaveRides/"+riderUid.get(index)+"/details/").document(rideId.get(index));
+                Map<String,Object> user=new HashMap<>();
+                int tempCount=Integer.parseInt(seatCount.get(index))-1;
+                user.put("seatCount",String.valueOf(tempCount));
+                documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(whereTo.this, "Reserved", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(whereTo.this,Home.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
         });
     }

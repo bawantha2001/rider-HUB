@@ -99,7 +99,7 @@ public class saveRides extends AppCompatActivity {
                                 @Override
                                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                     try {
-                                        names.add(value.getString("vehicleno"));
+                                        names.add(value.getString("vehicleno")+"/ "+value.getString("seatCount")+" Seats");
                                         dates.add(value.getString("date"));
                                         liststart.add(value.getString("startlocation"));
                                         listend.add(value.getString("endlocation"));
