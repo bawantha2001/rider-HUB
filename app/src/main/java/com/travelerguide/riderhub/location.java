@@ -99,7 +99,6 @@ public class location extends AppCompatActivity {
         name.setText(username);
         email.setText(useremail);
 
-        readCount();
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,9 +139,9 @@ public class location extends AppCompatActivity {
                 builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DocumentReference documentReference=fstore.collection("usersSaveRides/"+userId+"/details").document(String.valueOf(realcount+=1));
+                        DocumentReference documentReference=fstore.collection("usersSaveRides/"+ userId +"/details").document();
                         Map<String,Object> user=new HashMap<>();
-                        user.put("rideid",String.valueOf(realcount));
+                        user.put("rideid",documentReference.getId());
                         user.put("rideUid",userId);
                         user.put("Name",username);
                         user.put("phoneNo",phoneno);
@@ -157,7 +156,13 @@ public class location extends AppCompatActivity {
                         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                updateCount();
+
+                                Log.w("save Ride ","Data Saved");
+                                FirebaseFirestore.getInstance().terminate();
+                                Toast.makeText(location.this, "Ride saved", Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent(location.this,Home.class);
+                                startActivity(intent);
+                                finish();
                             }
                         });
                     }
@@ -243,27 +248,6 @@ public class location extends AppCompatActivity {
         dialog.show();
     }
 
-    private void updateCount(){
-        try{
-            DocumentReference documentReference=fstore.collection("usersSaveRides").document(userId);
-            Map<String,Object> user=new HashMap<>();
-            user.put("count",String.valueOf(realcount));
-            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    Log.w("save Ride ","Data Saved");
-                    FirebaseFirestore.getInstance().terminate();
-                    Toast.makeText(location.this, "Ride saved", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(location.this,Home.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-        }catch (Exception e){
-            Log.e("dberror",e.getMessage().toString());
-        }
-    }
-
     private void getroute() {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if(start.getText().toString().equals("")){
@@ -300,43 +284,6 @@ public class location extends AppCompatActivity {
             }
         }
 
-    }
-
-    private void readCount(){
-        try {
-            DocumentReference documentReference = fstore.collection("usersSaveRides").document(userId);
-            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    count = value.getString("count");
-                    count=(count==null)?"0":count;
-                    setCount();
-                }
-            });
-        } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void setCount() {
-        if(count.equals("0")){
-            realcount=0;
-            try{
-                DocumentReference documentReference=fstore.collection("usersSaveRides").document(userId);
-                Map<String,Object> user=new HashMap<>();
-                user.put("count","0");
-                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.w("save Ride ","Data Saved");
-                    }
-                });
-            }catch (Exception e){
-                Log.e("dberror",e.getMessage().toString());
-            }
-        }else {
-            realcount=Integer.parseInt(count);
-        }
     }
 
     private void popmap(Address start,Address end) {

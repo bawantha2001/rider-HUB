@@ -1,5 +1,6 @@
 package com.travelerguide.riderhub;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -133,53 +136,53 @@ public class whereTo extends AppCompatActivity {
 
         for (int x = 0; x < documentIds.size(); x++) {
             try {
-                DocumentReference documentReference = fstore.collection("usersSaveRides").document(documentIds.get(x));
-                int finalX = x;
-                documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        count = value.getString("count");
-                        for (int y = 1; y <= Integer.parseInt(count); y++) {
-
-                            try {
-                                fstore.collection("usersSaveRides/"+documentIds.get(finalX)+"/details").document(String.valueOf(y)).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                        if(value.getString("startlocation").equals(startcity) && value.getString("endlocation").equals(endcity) && value.getString("vehicletype").equals(vehicletype)&&!documentIds.get(finalX).equals(userId) && !value.getString("seatCount").equals("0")){
-                                            rideId.add(value.getString("rideid"));
-                                            riderUid.add(value.getString("rideUid"));
-                                            names.add(value.getString("Name"));
-                                            dates.add(value.getString("date"));
-                                            liststart.add(value.getString("startlocation"));
-                                            listend.add(value.getString("endlocation"));
-                                            listtime.add(value.getString("time"));
-                                            seatCount.add(value.getString("seatCount"));
-                                            showName.add(value.getString("Name")+"/ "+value.getString("seatCount")+" Seats");
-                                            if(vehicletype.equals("Motor Bike")){
-                                                price.add(String.valueOf(500*distance+" Rs"));
-                                                priceShow.add(String.valueOf(500*distance));
-                                                image.add(R.drawable.scooter);
-                                            } else if (vehicletype.equals("Car")) {
-                                                price.add(String.valueOf(1500*distance+" Rs"));
-                                                priceShow.add(String.valueOf(500*distance));
-                                                image.add(R.drawable.car);
-                                            } else if (vehicletype.equals("Three Wheeler")) {
-                                                price.add(String.valueOf(900*distance+" Rs"));
-                                                priceShow.add(String.valueOf(500*distance));
-                                                image.add(R.drawable.threewheel);
+                        try {
+                            int finalX = x;
+                            fstore.collection("usersSaveRides/"+documentIds.get(finalX)+"/details").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot value : task.getResult()) {
+                                            try {
+                                                if(value.getString("startlocation").equals(startcity) && value.getString("endlocation").equals(endcity) && value.getString("vehicletype").equals(vehicletype)&&!documentIds.get(finalX).equals(userId) && !value.getString("seatCount").equals("0")){
+                                                    rideId.add(value.getString("rideid"));
+                                                    riderUid.add(value.getString("rideUid"));
+                                                    names.add(value.getString("Name"));
+                                                    dates.add(value.getString("date"));
+                                                    liststart.add(value.getString("startlocation"));
+                                                    listend.add(value.getString("endlocation"));
+                                                    listtime.add(value.getString("time"));
+                                                    seatCount.add(value.getString("seatCount"));
+                                                    showName.add(value.getString("Name")+"/ "+value.getString("seatCount")+" Seats Available");
+                                                    if(vehicletype.equals("Motor Bike")){
+                                                        price.add(String.valueOf(500*distance+" LKR"));
+                                                        priceShow.add(String.valueOf(500*distance));
+                                                        image.add(R.drawable.scooter);
+                                                    } else if (vehicletype.equals("Car")) {
+                                                        price.add(String.valueOf(1500*distance+" LKR"));
+                                                        priceShow.add(String.valueOf(500*distance));
+                                                        image.add(R.drawable.car);
+                                                    } else if (vehicletype.equals("Three Wheeler")) {
+                                                        price.add(String.valueOf(900*distance+" LKR"));
+                                                        priceShow.add(String.valueOf(500*distance));
+                                                        image.add(R.drawable.threewheel);
+                                                    }
+                                                    setAdapter(showName,dates,liststart,listend,listtime,price,image);
+                                                }
                                             }
-                                            setAdapter(showName,dates,liststart,listend,listtime,price,image);
+                                            catch (Exception e) {
+                                                Log.e("riderSearch2", e.toString());
+                                            }
                                         }
                                     }
-                                });
-                            }catch (Exception e){
-                                Log.e("riderSearch2",e.toString());
-                                Toast.makeText(whereTo.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                                }
+                            });
+
+                        }catch (Exception e){
+                            Log.e("riderSearch2",e.toString());
                         }
-                    }
-                });
+
+
             } catch (Exception e) {
                 Log.e("riderSearch",e.toString());
                 Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -195,15 +198,17 @@ public class whereTo extends AppCompatActivity {
     }
     private void retriveRiders(){
         try{
-            fstore.collection("usersSaveRides").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            fstore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
-                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                    for(QueryDocumentSnapshot documentSnapshot:value){
-                        String documentID=documentSnapshot.getId();
-                        documentIds.add(documentID);
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()){
+                        for (QueryDocumentSnapshot document:task.getResult()){
+                            documentIds.add(document.getId());
+                        }
                     }
                 }
             });
+
         }catch (Exception e){
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
             return;
@@ -297,10 +302,9 @@ public class whereTo extends AppCompatActivity {
         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-
-                DocumentReference documentReference=fstore.collection("usersSaveRides/"+riderUid.get(index)+"/details/").document(rideId.get(index));
+                DocumentReference documentReference=fstore.collection("usersSaveRides/"+riderUid.get(index)+"/details").document(rideId.get(index));
                 Map<String,Object> user=new HashMap<>();
-                int tempCount=Integer.parseInt(seatCount.get(index))-1;
+                int tempCount=Integer.valueOf(seatCount.get(index))-1;
                 user.put("seatCount",String.valueOf(tempCount));
                 documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
